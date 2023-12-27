@@ -23,37 +23,6 @@ function generateCombinationsFromArray(stringArray, maxLength, minLength) {
     return combinations;
 }
 
-function generateSubstrings(inputString, maxLength, minLength) {
-    const substrings = [];
-
-    if (typeof inputString !== 'string' || typeof maxLength !== 'number' || typeof minLength !== 'number') {
-        console.error("Invalid input parameters");
-        return substrings;
-    }
-
-    if (inputString.length < 2) {
-        console.error("Input string must have a length of 2 or greater");
-        return substrings;
-    }
-
-    if (maxLength < minLength) {
-        console.error("Max length must be greater than or equal to min length");
-        return substrings;
-    }
-
-    for (let j = 0; j <= inputString.length - minLength; j++) {
-        for (let i = minLength; i <= maxLength; i++) {
-            const substring = inputString.substring(j, j + i);
-
-            // Check if the first or last character is a space
-            if (substring[0] !== ' ' && substring[i - 1] !== ' ') {
-                substrings.push(substring);
-            }
-        }
-    }
-
-    return substrings;
-}
 function removeSpecialCharacter(input, condition) {
     // Create a regular expression pattern using the condition string
     const pattern = new RegExp(`[${condition}]`, 'g');
@@ -63,6 +32,7 @@ function removeSpecialCharacter(input, condition) {
 
     return result;
 }
+
 async function detectBadWord(str) {
     let data = new BadWords()
     let badWords = await data.getWords('./app/data/bad-words.csv')
