@@ -69,7 +69,7 @@ async function detectBadWord(str) {
     let maxLength = 0
     let minLength = Number.MAX_SAFE_INTEGER
     let wordSet = new Set(badWords)
-    let specialCharacters = ' *#'
+    let specialCharacters = ' *#%'
     for (w of badWords) {
         if (w.length > maxLength) {
             maxLength = w.length
@@ -80,9 +80,9 @@ async function detectBadWord(str) {
     }
     const inputString = str.toLowerCase();
     const words = inputString.split(' ')
-    // console.log(words);
+    // console.dir(words, { 'maxArrayLength': null });
     for (w of words) { // Check if each word in the string is a bad word.
-        if (wordSet.has(removeSpecialCharacter(w, specialCharacters))) {
+        if (wordSet.has(w)) {
             // console.log(w)
             return w
         }
@@ -103,6 +103,7 @@ async function detectBadWord(str) {
         }
         possibleBadWords.push(badWord)
     }
+    // console.log(badWordsInSubstring)
     // console.log(possibleBadWords)
     if (possibleBadWords.length > 0) {
         return possibleBadWords[0]
@@ -111,7 +112,7 @@ async function detectBadWord(str) {
 }
 
 async function main() {
-    let result = await detectBadWord(`you are a b i **tch`)
+    let result = await detectBadWord(`D o# n*g is a bad word. Pudong s h*it B it#ch not a bad word`)
     console.log(result)
 }
 main()
