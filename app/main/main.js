@@ -90,7 +90,7 @@ async function detectBadWord(str) {
     // No bad words were found; generate a substring to check.
     // let substring = generateSubstrings(inputString, maxLength, minLength)
     let substring = generateCombinationsFromArray(words, maxLength, minLength)
-    console.dir(substring, { 'maxArrayLength': null });
+    // console.dir(substring, { 'maxArrayLength': null });
     let badWordsInSubstring = substring.filter((str, _i, _arr) => {
         return wordSet.has(removeSpecialCharacter(str, specialCharacters))
     })
@@ -103,7 +103,7 @@ async function detectBadWord(str) {
         }
         possibleBadWords.push(badWord)
     }
-    console.log(possibleBadWords)
+    // console.log(possibleBadWords)
     if (possibleBadWords.length > 0) {
         return possibleBadWords[0]
     }
