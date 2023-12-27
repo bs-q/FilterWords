@@ -39,7 +39,7 @@ async function detectBadWord(str) {
     let maxLength = 0
     let minLength = Number.MAX_SAFE_INTEGER
     let wordSet = new Set(badWords)
-    let specialCharacters = ' *#%'
+    let specialCharacters = ' *#%' // define special character
     for (w of badWords) {
         if (w.length > maxLength) {
             maxLength = w.length
@@ -58,31 +58,32 @@ async function detectBadWord(str) {
         }
     }
     // No bad words were found; generate a substring to check.
-    // let substring = generateSubstrings(inputString, maxLength, minLength)
-    let substring = generateCombinationsFromArray(words, maxLength, minLength)
+    let substring = generateCombinationsFromArray(words, maxLength * 2, minLength)
     // console.dir(substring, { 'maxArrayLength': null });
     let badWordsInSubstring = substring.filter((str, _i, _arr) => {
         return wordSet.has(removeSpecialCharacter(str, specialCharacters))
     })
-    let possibleBadWords = []
-    aLoop: for (badWord of badWordsInSubstring) {// Remove any potential bad words created by normal words.
-        for (word of words) {
-            if (word.includes(badWord)) {
-                continue aLoop
-            }
-        }
-        possibleBadWords.push(badWord)
-    }
+
     // console.log(badWordsInSubstring)
     // console.log(possibleBadWords)
-    if (possibleBadWords.length > 0) {
-        return possibleBadWords[0]
+    if (badWordsInSubstring.length > 0) {
+        return badWordsInSubstring[0]
     }
     return ""
 }
-
+const testcase = [
+    `D o# n*g is a bad word. Pudong s h*it B it#ch not a bad word`,
+    `Dingdong bingbong D Do*n g`,
+    `you are a b it ch`,
+    `pe peee p ee p`,
+    `y o u a r e a p i e c e o f s h i#t`
+]
 async function main() {
-    let result = await detectBadWord(`D o# n*g is a bad word. Pudong s h*it B it#ch not a bad word`)
-    console.log(result)
+    for (test of testcase) {
+        let time = new Date()
+        let result = await detectBadWord(test)
+        let execTime = (new Date()) - time
+        console.log(`Result: ${result}, t: ${execTime}ms`)
+    }
 }
 main()
